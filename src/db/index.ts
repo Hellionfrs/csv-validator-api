@@ -11,7 +11,7 @@ export const pool = new Pool({
 
 export const query = async (
   text: string,
-  params?: (string | number | boolean)[]
+  params?: (string | number | boolean| undefined)[]
 ) => {
   // const initTime = Date.now();
   // console.log(text, params);
