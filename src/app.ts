@@ -14,15 +14,10 @@ if (process.env["NODE_ENV"] === "test") {
 
 export const app = express();
 
-const corsOptions = {
-  origin: process.env["CLIENT_ORIGIN"],
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
-app.use(authRouter)
-app.use(errorHandler)
+app.use(authRouter);
+app.use(errorHandler);
 app.get("/", (_req: Request, res: Response) => {
   res.json({ test: "hola mundo" });
 });

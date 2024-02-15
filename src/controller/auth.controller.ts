@@ -45,7 +45,7 @@ export const loginController = async (
       res.json({ok: true, message: "Login exitoso", data: {token}})
     } else {
       throw new ExpressReviewsError(
-        "password doesn't match with username or email",
+        "password doesn't match with email",
         403,
         "Error at controllers"
       );
