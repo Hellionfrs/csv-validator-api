@@ -7,7 +7,7 @@ import { objStringify } from "../utils/stringifyObject.utils";
 
 export async function getUserByName(username: string): Promise<User> {
   try {
-    return (await query("SELECT * FROM users WHERE username = $1;", [username]))
+    return (await query("SELECT * FROM users WHERE name = $1;", [username]))
       .rows[0];
   } catch (error) {
     throw new ExpressReviewsError(
@@ -47,19 +47,19 @@ export async function getUserByEmail(email: string): Promise<User> {
   }
 }
 export async function getUserByNameAndEmail(
-  username: string,
+  name: string,
   email: string
 ): Promise<User> {
   try {
     return (
-      await query("SELECT * FROM users WHERE username = $1 AND email = $2;", [
-        username,
+      await query("SELECT * FROM users WHERE name = $1 AND email = $2;", [
+        name,
         email,
       ])
     ).rows[0];
   } catch (error) {
     throw new ExpressReviewsError(
-      "Password no coincide con Username",
+      "Password no coincide con name",
       403,
       "data error",
       error
@@ -70,14 +70,14 @@ export async function getUserByNameAndEmail(
 export async function createUser(data: UserData): Promise<User> {
   try {
     let queryCreateUser =
-      "INSERT INTO users (username, password, email, role,createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
+      "INSERT INTO users (name, password, email, role,createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
     let queryWithAge =
-      "INSERT INTO users (username, password, email, role, age, createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+      "INSERT INTO users (name, password, email, role, age, createdAt, updatedAt) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
 
     let createdUser: QueryResult<User>;
     if (!data.age) {
       createdUser = await query(queryCreateUser, [
-        data.username,
+        data.name,
         data.password,
         data.email,
         data.role,
@@ -86,7 +86,7 @@ export async function createUser(data: UserData): Promise<User> {
       ]);
     }
     createdUser = await query(queryWithAge, [
-      data.username,
+      data.name,
       data.password,
       data.email,
       data.role,

@@ -3,6 +3,7 @@ import cors from "cors";
 import { configDotenv } from "dotenv";
 import { authRouter } from "./routers/auth.router";
 import errorHandler from "./middlewares/error.middleware";
+import { csvRouter } from "./routers/csv.router";
 
 // TODO route /login and /upload
 
@@ -17,6 +18,7 @@ export const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(authRouter);
+app.use(csvRouter)
 app.use(errorHandler);
 app.get("/", (_req: Request, res: Response) => {
   res.json({ test: "hola mundo" });

@@ -42,7 +42,7 @@ export const loginController = async (
     if (validPass) {
       const payload = {
         userId: user.id,
-        username: user.username,
+        name: user.name,
         userRole: user.role,
       };
       const token = jwt.sign(payload, jwtSecret, { expiresIn: "10h" });

@@ -3,9 +3,9 @@ import { User, UserData, UserEdit } from "../models/user.model";
 import ExpressReviewsError from "../utils/newError.utils";
 
 export async function createUser(data: UserData): Promise<User> {
-  const { username } = data;
+  const { name } = data;
   try {
-    const user = await userDB.getUserByName(username);
+    const user = await userDB.getUserByName(name);
     if (user) {
       throw new ExpressReviewsError("usuario ya existe", 403, "service error");
     }
