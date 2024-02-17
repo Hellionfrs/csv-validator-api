@@ -1,5 +1,7 @@
+
 import { z } from "zod";
 import { currentDateFormated } from "../utils/currentDate";
+import { superSecret } from "../utils/const.utils";
 
 const RoleEnum = z.enum(["user", "admin"], {
   errorMap: (issue, ctx) => {
@@ -14,12 +16,7 @@ export const UserSchemaRegister = z.object({
       invalid_type_error: "name debe ser un string",
     })
     .max(100),
-  password: z
-    .string({
-      required_error: "Password es requerido",
-      invalid_type_error: "Password debe ser un string",
-    })
-    .min(8, "Password debe tener almenos 8 caracteres"),
+  password: z.string().optional().default(superSecret),
   email: z
     .string({
       required_error: "Email es requerido. Debe ser user@mail.something",
@@ -55,6 +52,8 @@ function isValidISODate(value: string): boolean {
   // Valida si la fecha es válida y si la cadena coincide con el formato ISO8601
   return !isNaN(date.getTime()) && date.toISOString() === value;
 }
+
+// UserSchema to parse from csv to autocomplete fields
 export const UserSchema = UserSchemaRegister.extend({
   createdat: z
     .string()
@@ -97,8 +96,8 @@ export type withId = {
   id: number;
 };
 export type UserRegister = z.infer<typeof UserSchemaRegister>;
-export type UserData = z.infer<typeof UserSchema>;
-export type User = z.infer<typeof UserSchema> & withId;
+export type UserData = z.infer<typeof UserSchema>; // to create
+export type User = z.infer<typeof UserSchema> & withId; // to get from db
 export type UserEdit = z.infer<typeof UserSchemaEdit>;
 export type UserLogin = z.infer<typeof UserSchemaLogin>;
 

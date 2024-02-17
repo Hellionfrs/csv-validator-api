@@ -24,6 +24,7 @@ interface ValidationResult {
 function validateUser(user: User, index: number): ValidationResult {
   try {
     // Intenta validar el usuario con el esquema
+    // TODO verificar el mail
     InputSchemaRegister.parse(user);
     console.log("se valido", user);
     // Si pasa la validación, devuelve un objeto con ok: true y los datos del usuario
